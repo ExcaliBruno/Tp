@@ -10,7 +10,7 @@ double get_real_time() {
     return (double)time.tv_sec + (double)time.tv_usec * 1e-6;
 }
 
-int main(int argc, char ** argv){
+int main(){
     int i;
     printf("Digite um numero: ");
     scanf("%d", &i);
