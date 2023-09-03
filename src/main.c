@@ -1,75 +1,129 @@
 #include "../include/fat.h"
 #include "../include/fib.h"
-#include <stdio.h>
-#include <time.h>
-#include <sys/time.h>
 
-double get_real_time() {
-    struct timeval time;
-    gettimeofday(&time, NULL);
-    return (double)time.tv_sec + (double)time.tv_usec * 1e-6;
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+#include <sys/time.h>
+#include <sys/types.h>
+
+void medirTempoFatorialRecursivo(int n) {
+    // Mede o tempo de início do usuário.
+    struct timeval start_user_time;
+    gettimeofday(&start_user_time, NULL);
+
+    // Mede o tempo de início do sistema.
+    struct timeval start_sys_time;
+    gettimeofday(&start_sys_time, NULL);
+
+    // Executa a função fatorial recursiva.
+    recursive_fatorial(n);
+
+    // Mede o tempo de término do usuário.
+    struct timeval end_user_time;
+    gettimeofday(&end_user_time, NULL);
+
+    // Mede o tempo de término do sistema.
+    struct timeval end_sys_time;
+    gettimeofday(&end_sys_time, NULL);
+
+    // Calcula o tempo gasto pelo usuário e pelo sistema em segundos.
+    double user_time = (end_user_time.tv_sec - start_user_time.tv_sec) + (end_user_time.tv_usec - start_user_time.tv_usec) / 1000000.0;
+    double sys_time = (end_sys_time.tv_sec - start_sys_time.tv_sec) + (end_sys_time.tv_usec - start_sys_time.tv_usec) / 1000000.0;
+
+    printf("Tempo da função fatorial recursiva de %d: %.6f segundos (Usuário), %.6f segundos (Sistema)\n", n, user_time, sys_time);
 }
 
-int main(){
-    int i;
-    printf("Digite um numero: ");
-    scanf("%d", &i);
+// Função para medir o tempo da função fatorial iterativa.
+void medirTempoFatorialIterativo(int n) {
+    struct timeval start_user_time;
+    gettimeofday(&start_user_time, NULL);
 
-    double start_real_time, end_real_time;
-    clock_t start_cpu_time, end_cpu_time;
-    double elapsed_real_time, elapsed_cpu_time;
+    struct timeval start_sys_time;
+    gettimeofday(&start_sys_time, NULL);
 
-    // Medir o tempo da função fatorial
-    start_real_time = get_real_time();
-    start_cpu_time = clock();
-    int fat_result = fatorial(i);
-    end_cpu_time = clock();
-    end_real_time = get_real_time();
+    iterative_fatorial(n);
 
-    elapsed_real_time = end_real_time - start_real_time;
-    elapsed_cpu_time = (double)(end_cpu_time - start_cpu_time) / CLOCKS_PER_SEC;
-    printf("Fatorial de %d: %d\n", i, fat_result);
-    printf("Tempo real para fatorial: %.6f segundos\n", elapsed_real_time);
-    printf("Tempo de usuário para fatorial: %.6f segundos\n", elapsed_cpu_time);
+    struct timeval end_user_time;
+    gettimeofday(&end_user_time, NULL);
 
-    // Medir o tempo da função fatorial recursiva
-    start_real_time = get_real_time();
-    start_cpu_time = clock();
-    int fat_rec_result = fatorial_rec(i);
-    end_cpu_time = clock();
-    end_real_time = get_real_time();
+    struct timeval end_sys_time;
+    gettimeofday(&end_sys_time, NULL);
 
-    elapsed_real_time = end_real_time - start_real_time;
-    elapsed_cpu_time = (double)(end_cpu_time - start_cpu_time) / CLOCKS_PER_SEC;
-    printf("Fatorial recursivo de %d: %d\n", i, fat_rec_result);
-    printf("Tempo real para fatorial recursivo: %.6f segundos\n", elapsed_real_time);
-    printf("Tempo de usuário para fatorial recursivo: %.6f segundos\n", elapsed_cpu_time);
+    double user_time = (end_user_time.tv_sec - start_user_time.tv_sec) + (end_user_time.tv_usec - start_user_time.tv_usec) / 1000000.0;
+    double sys_time = (end_sys_time.tv_sec - start_sys_time.tv_sec) + (end_sys_time.tv_usec - start_sys_time.tv_usec) / 1000000.0;
 
-    // Medir o tempo da função fibonacci
-    start_real_time = get_real_time();
-    start_cpu_time = clock();
-    int fib_result = fibonacci(i);
-    end_cpu_time = clock();
-    end_real_time = get_real_time();
+    printf("Tempo da função fatorial iterativa de %d: %.6f segundos (Usuário), %.6f segundos (Sistema)\n", n, user_time, sys_time);
+}
 
-    elapsed_real_time = end_real_time - start_real_time;
-    elapsed_cpu_time = (double)(end_cpu_time - start_cpu_time) / CLOCKS_PER_SEC;
-    printf("Fibonacci de %d: %d\n", i, fib_result);
-    printf("Tempo real para fibonacci: %.6f segundos\n", elapsed_real_time);
-    printf("Tempo de usuário para fibonacci: %.6f segundos\n", elapsed_cpu_time);
+// Função para medir o tempo da função Fibonacci recursiva.
+void medirTempoFibonacciRecursivo(int n) {
+    struct timeval start_user_time;
+    gettimeofday(&start_user_time, NULL);
 
-    // Medir o tempo da função fibonacci recursiva
-    start_real_time = get_real_time();
-    start_cpu_time = clock();
-    int fib_rec_result = fibonacci_rec(i);
-    end_cpu_time = clock();
-    end_real_time = get_real_time();
+    struct timeval start_sys_time;
+    gettimeofday(&start_sys_time, NULL);
 
-    elapsed_real_time = end_real_time - start_real_time;
-    elapsed_cpu_time = (double)(end_cpu_time - start_cpu_time) / CLOCKS_PER_SEC;
-    printf("Fibonacci recursivo de %d: %d\n", i, fib_rec_result);
-    printf("Tempo real para fibonacci recursivo: %f segundos\n", elapsed_real_time);
-    printf("Tempo de usuário para fibonacci recursivo: %f segundos\n", elapsed_cpu_time);
+    recursive_fibonacci(n);
 
+    struct timeval end_user_time;
+    gettimeofday(&end_user_time, NULL);
+
+    struct timeval end_sys_time;
+    gettimeofday(&end_sys_time, NULL);
+
+    double user_time = (end_user_time.tv_sec - start_user_time.tv_sec) + (end_user_time.tv_usec - start_user_time.tv_usec) / 1000000.0;
+    double sys_time = (end_sys_time.tv_sec - start_sys_time.tv_sec) + (end_sys_time.tv_usec - start_sys_time.tv_usec) / 1000000.0;
+
+    printf("Tempo da função Fibonacci recursiva de %d: %.6f segundos (Usuário), %.6f segundos (Sistema)\n", n, user_time, sys_time);
+}
+
+// Função para medir o tempo da função Fibonacci iterativa.
+void medirTempoFibonacciIterativo(int n) {
+    struct timeval start_user_time;
+    gettimeofday(&start_user_time, NULL);
+
+    struct timeval start_sys_time;
+    gettimeofday(&start_sys_time, NULL);
+
+    iterative_fibonacci(n);
+
+    struct timeval end_user_time;
+    gettimeofday(&end_user_time, NULL);
+
+    struct timeval end_sys_time;
+    gettimeofday(&end_sys_time, NULL);
+
+    double user_time = (end_user_time.tv_sec - start_user_time.tv_sec) + (end_user_time.tv_usec - start_user_time.tv_usec) / 1000000.0;
+    double sys_time = (end_sys_time.tv_sec - start_sys_time.tv_sec) + (end_sys_time.tv_usec - start_sys_time.tv_usec) / 1000000.0;
+
+    printf("Tempo da função Fibonacci iterativa de %d: %.6f segundos (Usuário), %.6f segundos (Sistema)\n", n, user_time, sys_time);
+}
+
+int main(int argc, char *argv[])
+{
+  
+    int n = 5;
+    
+    printf("Tempo das funções interativas e recursivas \n");
+
+    for(int i = 0; i <= n; i++){
+        printf("Iteração %d\n", i);
+        recursive_fatorial(i);
+        printf("Fatorial recursivo: %d\n", recursive_fatorial(i));
+        medirTempoFatorialRecursivo(i);
+        iterative_fatorial(i);
+        printf("Fatorial iterativo: %d\n", iterative_fatorial(i));
+        medirTempoFatorialIterativo(i);
+        recursive_fibonacci(i);
+        printf("Fibonacci recursivo: %d\n", recursive_fibonacci(i));
+        medirTempoFibonacciRecursivo(i);
+        iterative_fibonacci(i);
+        printf("Fibonacci iterativo: %d\n", iterative_fibonacci(i));
+        medirTempoFibonacciIterativo(i);
+        printf("\n\n");
+    }
+    
     return 0;
 }

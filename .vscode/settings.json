@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "fib.h": "c",
+        "fat.h": "c",
+        "unistd.h": "c"
+    }
+}

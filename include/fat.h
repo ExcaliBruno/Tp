@@ -1,14 +1,7 @@
 #ifndef FAT_H
 #define FAT_H
 
-#include <stdlib.h>
-
-
-
-int fatorial(int n);
-int fatorial_rec(int n);
-
-
-
+int recursive_fatorial(int n);
+int iterative_fatorial(int n);
 
 #endif
