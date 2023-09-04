@@ -21,6 +21,8 @@ CFLAGS = -Wall -c -I$(INC)
 
 EXE = $(BIN)/main
 
+N = 5 
+
 all:  $(EXE)
 
 $(BIN)/main: $(OBJS)
@@ -40,5 +42,5 @@ clean:
 
 run:
 	make all
-		./$(EXE)
+		./$(EXE) $(N)
 

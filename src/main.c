@@ -104,7 +104,7 @@ void medirTempoFibonacciIterativo(int n) {
 int main(int argc, char *argv[])
 {
   
-    int n = 5;
+    int n = atoi(argv[1]);
     
     printf("Tempo das funções interativas e recursivas \n");
 
