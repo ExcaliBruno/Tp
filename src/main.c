@@ -9,26 +9,22 @@
 #include <sys/types.h>
 
 void medirTempoFatorialRecursivo(int n) {
-    // Mede o tempo de início do usuário.
+
     struct timeval start_user_time;
     gettimeofday(&start_user_time, NULL);
 
-    // Mede o tempo de início do sistema.
     struct timeval start_sys_time;
     gettimeofday(&start_sys_time, NULL);
 
-    // Executa a função fatorial recursiva.
+    
     recursive_fatorial(n);
 
-    // Mede o tempo de término do usuário.
     struct timeval end_user_time;
     gettimeofday(&end_user_time, NULL);
 
-    // Mede o tempo de término do sistema.
     struct timeval end_sys_time;
     gettimeofday(&end_sys_time, NULL);
 
-    // Calcula o tempo gasto pelo usuário e pelo sistema em segundos.
     double user_time = (end_user_time.tv_sec - start_user_time.tv_sec) + (end_user_time.tv_usec - start_user_time.tv_usec) / 1000000.0;
     double sys_time = (end_sys_time.tv_sec - start_sys_time.tv_sec) + (end_sys_time.tv_usec - start_sys_time.tv_usec) / 1000000.0;
 
